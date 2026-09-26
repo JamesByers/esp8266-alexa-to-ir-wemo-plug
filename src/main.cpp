@@ -69,9 +69,9 @@ void setup() {
     fauxmo.enable(true);
 
     // Register devices (In fauxmoESP 2.2.1 addDevice returns device_id 0, 1, 2...)
-    fauxmo.addDevice("Heater device 1a");
-    fauxmo.addDevice("Heater device 2a");
-    fauxmo.addDevice("Heater device 3a");
+    fauxmo.addDevice("Heater device 1b");
+    fauxmo.addDevice("Heater device 2b");
+    fauxmo.addDevice("Heater device 3b");
 
 
     // Callback for SetBinaryState in fauxmoESP 2.2.1
@@ -79,15 +79,15 @@ void setup() {
     fauxmo.onMessage([](unsigned char device_id, const char * device_name, bool state) {
         Serial.printf("[FAUXMO] Callback received for device_id: %d (%s) -> State: %d\n", device_id, device_name, state);
         
-        if (strcmp(device_name, "Heater device 1a") == 0) {
+        if (strcmp(device_name, "Heater device 1b") == 0) {
             if (state) triggerHeater1On = true; 
             else triggerHeater1Off = true;
         }
-        else if (strcmp(device_name, "Heater device 2a") == 0) {
+        else if (strcmp(device_name, "Heater device 2b") == 0) {
             if (state) triggerHeater2On = true; 
             else triggerHeater2Off = true;
         }
-        else if (strcmp(device_name, "Heater device 3a") == 0) {
+        else if (strcmp(device_name, "Heater device 3b") == 0) {
             if (state) triggerHeater3On = true; 
             else triggerHeater3Off = true;
         }
