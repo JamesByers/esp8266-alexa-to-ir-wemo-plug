@@ -73,14 +73,10 @@ void setup() {
     fauxmo.addDevice("Heater device 2");
     fauxmo.addDevice("Heater device 3");
 
-    // Callback for GetBinaryState queries in fauxmoESP 2.2.1
-    fauxmo.onGetState([](unsigned char device_id, const char * device_name) {
-        return false;
-    });
 
     // Callback for SetBinaryState in fauxmoESP 2.2.1
     // Callback signature: void(unsigned char device_id, const char * device_name, bool state)
-    fauxmo.onSetState([](unsigned char device_id, const char * device_name, bool state) {
+    fauxmo.onMessage([](unsigned char device_id, const char * device_name, bool state) {
         Serial.printf("[FAUXMO] Callback received for device_id: %d (%s) -> State: %d\n", device_id, device_name, state);
         
         if (strcmp(device_name, "Heater device 1") == 0) {
