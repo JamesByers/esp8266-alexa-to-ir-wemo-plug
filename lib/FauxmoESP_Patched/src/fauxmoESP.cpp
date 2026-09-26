@@ -224,7 +224,7 @@ unsigned char fauxmoESP::addDevice(const char * device_name) {
 
     // Create UUID
     char uuid[15];
-    sprintf(uuid, "444558%06X%02X\0", ESP.getChipId(), device_id + 99); // "DEV" + CHIPID + DEV_ID
+    sprintf(uuid, "555559%06X%02X\0", ESP.getChipId(), device_id + 111); // "DEV" + CHIPID + DEV_ID
     new_device.uuid = strdup(uuid);
 
     // TCP Server
