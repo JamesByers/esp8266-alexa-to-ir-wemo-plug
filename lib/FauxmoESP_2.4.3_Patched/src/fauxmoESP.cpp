@@ -92,7 +92,12 @@ void fauxmoESP::_nextUDPResponse() {
 
 void fauxmoESP::_onUDPData(IPAddress remoteIP, unsigned int remotePort, void *data, size_t len) {
 
-    if (_discovering) return;
+    // LOCAL PATCH: upstream returned early here while a response burst was in
+    // flight, silently dropping every M-SEARCH for ~4s (5 rounds x 250ms).
+    // Alexa re-probes within that window, so those probes were ignored and a
+    // device could go unadvertised for a whole discovery cycle. Re-arming is
+    // safe: _nextUDPResponse() is paced by UDP_RESPONSES_INTERVAL regardless,
+    // so this cannot flood. Upstream issue #282.
 
     char * p = (char *) data;
     p[len] = 0;
@@ -118,7 +123,11 @@ void fauxmoESP::_onUDPData(IPAddress remoteIP, unsigned int remotePort, void *da
             // Send responses
             _remoteIP = remoteIP;
             _remotePort = remotePort;
-            _current = random(0, _devices.size());
+            // LOCAL PATCH: upstream started at a random device index, so which
+            // devices got advertised first varied per discovery and one could be
+            // starved. Start at 0 deterministically so every device is offered
+            // in a predictable order.
+            _current = 0;
             _roundsLeft = UDP_RESPONSES_TRIES;
 
         }
