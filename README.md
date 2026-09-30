@@ -24,11 +24,11 @@ The code registers 3 virtual WeMo switches with Alexa:
 
 | Device Name | Alexa Command | Triggered Action & IR Macro Sequence |
 | :--- | :--- | :--- |
-| **Heater device 1** | **ON** | Sends `Heat ON/OFF` -> waits 1s -> sends `1000W` -> waits 1s -> sends `Timer` twice (1 hr timer). |
+| **Heater device 1h** | **ON** | Sends `Heat ON/OFF` -> waits 1s -> sends `1000W` -> waits 1s -> sends `Timer` twice (1 hr timer). |
 | | **OFF** | Sends `Heat ON/OFF`. |
-| **Heater device 2** | **ON** | Sends `500W` IR code. |
+| **Heater device 2h** | **ON** | Sends `500W` IR code. |
 | | **OFF** | Sends `1000W` IR code. |
-| **Heater device 3** | **ON** | Sends `1500W` IR code. |
+| **Heater device 3h** | **ON** | Sends `1500W` IR code. |
 | | **OFF** | Sends `Timer` IR code twice. |
 
 ---
@@ -93,10 +93,10 @@ pio device monitor
 3. Ask Alexa:
    > *"Alexa, discover my devices"*
    *(Alternatively, use the Alexa app -> Devices -> Add Device -> Switch -> Other -> Discover).*
-4. Alexa will discover three new switch devices: **"Heater device 1"**, **"Heater device 2"**, and **"Heater device 3"**.
+4. Alexa will discover three new switch devices: **"Heater device 1h"**, **"Heater device 2h"**, and **"Heater device 3h"**.
 5. Test commands like:
-   - *"Alexa, turn on Heater device 1"*
-   - *"Alexa, turn off Heater device 1"*
+   - *"Alexa, turn on Heater device 1h"*
+   - *"Alexa, turn off Heater device 1h"*
 
 ---
 
