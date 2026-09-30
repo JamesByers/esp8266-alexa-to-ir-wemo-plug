@@ -6,7 +6,7 @@ This project allows an **ESP8266** microcontroller (such as a NodeMCU or Adafrui
 
 ## 📌 How It Works
 
-1. **WeMo Emulation (`fauxmoESP` v2.2.1)**
+1. **WeMo Emulation (`fauxmoESP` v2.4.3)**
    - Emulates Belkin WeMo Smart Plugs over UPnP/UDP (port 1900).
    - Allows local Alexa discovery without requiring third-party cloud services or custom Alexa skills.
 2. **Decoupled Asynchronous State Machine**
@@ -24,11 +24,11 @@ The code registers 3 virtual WeMo switches with Alexa:
 
 | Device Name | Alexa Command | Triggered Action & IR Macro Sequence |
 | :--- | :--- | :--- |
-| **Heater device 1h** | **ON** | Sends `Heat ON/OFF` -> waits 1s -> sends `1000W` -> waits 1s -> sends `Timer` twice (1 hr timer). |
+| **H Device 1D** | **ON** | Sends `Heat ON/OFF` -> waits 1s -> sends `1000W` -> waits 1s -> sends `Timer` twice (1 hr timer). |
 | | **OFF** | Sends `Heat ON/OFF`. |
-| **Heater device 2h** | **ON** | Sends `500W` IR code. |
+| **H Device 2D** | **ON** | Sends `500W` IR code. |
 | | **OFF** | Sends `1000W` IR code. |
-| **Heater device 3h** | **ON** | Sends `1500W` IR code. |
+| **H Device 3D** | **ON** | Sends `1500W` IR code. |
 | | **OFF** | Sends `Timer` IR code twice. |
 
 ---
@@ -93,15 +93,15 @@ pio device monitor
 3. Ask Alexa:
    > *"Alexa, discover my devices"*
    *(Alternatively, use the Alexa app -> Devices -> Add Device -> Switch -> Other -> Discover).*
-4. Alexa will discover three new switch devices: **"Heater device 1h"**, **"Heater device 2h"**, and **"Heater device 3h"**.
+4. Alexa will discover three new switch devices: **"H Device 1D"**, **"H Device 2D"**, and **"H Device 3D"**.
 5. Test commands like:
-   - *"Alexa, turn on Heater device 1h"*
-   - *"Alexa, turn off Heater device 1h"*
+   - *"Alexa, turn on H Device 1D"*
+   - *"Alexa, turn off H Device 1D"*
 
 ---
 
 ## 🛠 Troubleshooting & Library Notes
 
-- **FauxmoESP Version**: This project specifically uses **`vintlabs/FauxmoESP@2.2.1`**. Version 2.x emulates Belkin WeMo plugs, whereas Version 3.x switched to Philips Hue bulb emulation.
+- **FauxmoESP Version**: This project uses **`vintlabs/fauxmoESP@2.4.3`**, pulled directly from the GitHub tag (2.4.3 is the final 2.x release, June 2018). Version 2.x emulates Belkin WeMo plugs, whereas Version 3.x switched to Philips Hue bulb emulation -- so this is deliberately pinned to the 2.x line, not an upgrade candidate.
 - **2.4 GHz Wi-Fi**: ESP8266 only supports 2.4 GHz Wi-Fi networks. Ensure your phone/Echo and ESP8266 are on 2.4 GHz during discovery.
 - **Multi-AP Routers**: Some mesh/multi-AP routers block UDP multicast packets between devices. Disable AP Isolation on your router if Alexa fails to discover devices.

@@ -1,4 +1,4 @@
-﻿// ESP8266 Alexa to IR Controller (Wemo Plug Emulation via fauxmoESP v2.2.1)
+﻿// ESP8266 Alexa to IR Controller (Wemo Plug Emulation via fauxmoESP v2.4.3)
 // Decoupled architecture: Fauxmo callbacks trigger flags in loop to safely handle IR macros.
 
 extern "C" {
@@ -65,29 +65,29 @@ void setup() {
 
     wifiSetup();
 
-    // Enable WeMo switch emulation (fauxmoESP 2.2.1 syntax)
+    // Enable WeMo switch emulation (fauxmoESP 2.4.3 syntax)
     fauxmo.enable(true);
 
-    // Register devices (In fauxmoESP 2.2.1 addDevice returns device_id 0, 1, 2...)
-    fauxmo.addDevice("Heater device 1h");
-    fauxmo.addDevice("Heater device 2h");
-    fauxmo.addDevice("Heater device 3h");
+    // Register devices (In fauxmoESP 2.4.3 addDevice returns device_id 0, 1, 2...)
+    fauxmo.addDevice("H Device 1D");
+    fauxmo.addDevice("H Device 2D");
+    fauxmo.addDevice("H Device 3D");
 
 
-    // Callback for SetBinaryState in fauxmoESP 2.2.1
+    // Callback for SetBinaryState in fauxmoESP 2.4.3
     // Callback signature: void(unsigned char device_id, const char * device_name, bool state)
     fauxmo.onMessage([](unsigned char device_id, const char * device_name, bool state) {
         Serial.printf("[FAUXMO] Callback received for device_id: %d (%s) -> State: %d\n", device_id, device_name, state);
         
-        if (strcmp(device_name, "Heater device 1h") == 0) {
+        if (strcmp(device_name, "H Device 1D") == 0) {
             if (state) triggerHeater1On = true; 
             else triggerHeater1Off = true;
         }
-        else if (strcmp(device_name, "Heater device 2h") == 0) {
+        else if (strcmp(device_name, "H Device 2D") == 0) {
             if (state) triggerHeater2On = true; 
             else triggerHeater2Off = true;
         }
-        else if (strcmp(device_name, "Heater device 3h") == 0) {
+        else if (strcmp(device_name, "H Device 3D") == 0) {
             if (state) triggerHeater3On = true; 
             else triggerHeater3Off = true;
         }
