@@ -3,3 +3,4 @@
 .idea/
 include/credentials.h
 *.log
+.DS_Store
