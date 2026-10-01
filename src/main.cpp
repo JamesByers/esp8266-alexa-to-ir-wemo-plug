@@ -24,7 +24,7 @@ extern "C" {
 #include "credentials.h"  // WIFI_SSID, WIFI_PASS, SINRIC_APP_KEY, SINRIC_APP_SECRET, HEATER*_ID
 
 #define SERIAL_BAUDRATE                 115200
-#define LED                             4
+#define LED                             5
 
 // IR Command Hex Codes
 unsigned int heat_on_off = 0xFFA25D;
@@ -33,7 +33,7 @@ unsigned int _1000_watts = 0xFF18E7;
 unsigned int _1500_watts = 0xFF4AB5;
 unsigned int timer       = 0xFFE817;
 
-const uint16_t kIrLed = 4;  // GPIO pin used to send the IR message (D2 on NodeMCU).
+const uint16_t kIrLed = 5;  // GPIO pin used to send the IR message (D1 on NodeMCU).
 IRsend irsend(kIrLed);
 
 // State Machine Flags for Loop Execution
