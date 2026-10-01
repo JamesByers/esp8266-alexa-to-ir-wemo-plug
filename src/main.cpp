@@ -16,6 +16,7 @@ extern "C" {
 #else
     #include <ESP8266WiFi.h>
 #endif
+#include <ESP8266WebServer.h>
 #include <SinricPro.h>
 #include <SinricProSwitch.h>
 #include <IRremoteESP8266.h>
@@ -42,6 +43,9 @@ volatile bool triggerHeater2On  = false;
 volatile bool triggerHeater2Off = false;
 volatile bool triggerHeater3On  = false;
 volatile bool triggerHeater3Off = false;
+
+// HTTP Server
+ESP8266WebServer server(80);
 
 // -----------------------------------------------------------------------------
 // Wifi Setup
@@ -101,6 +105,54 @@ void sinricSetup() {
     SinricPro.begin(SINRIC_APP_KEY, SINRIC_APP_SECRET);
 }
 
+// -----------------------------------------------------------------------------
+// HTTP Server Handlers
+// -----------------------------------------------------------------------------
+void setupHTTPServer() {
+    server.on("/", HTTP_GET, []() {
+        server.send(200, "text/html", "<html><body><h1>ESP8266 IR Heater Controller</h1>"
+                                      "<ul>"
+                                      "<li><a href='/heater1/on'>Heater 1 ON</a> | <a href='/heater1/off'>Heater 1 OFF</a></li>"
+                                      "<li><a href='/heater2/on'>Heater 2 ON</a> | <a href='/heater2/off'>Heater 2 OFF</a></li>"
+                                      "<li><a href='/heater3/on'>Heater 3 ON</a> | <a href='/heater3/off'>Heater 3 OFF</a></li>"
+                                      "</ul></body></html>");
+    });
+
+    server.on("/heater1/on", HTTP_GET, []() {
+        triggerHeater1On = true;
+        server.send(200, "text/plain", "Heater 1 ON triggered");
+    });
+    server.on("/heater1/off", HTTP_GET, []() {
+        triggerHeater1Off = true;
+        server.send(200, "text/plain", "Heater 1 OFF triggered");
+    });
+
+    server.on("/heater2/on", HTTP_GET, []() {
+        triggerHeater2On = true;
+        server.send(200, "text/plain", "Heater 2 ON triggered");
+    });
+    server.on("/heater2/off", HTTP_GET, []() {
+        triggerHeater2Off = true;
+        server.send(200, "text/plain", "Heater 2 OFF triggered");
+    });
+
+    server.on("/heater3/on", HTTP_GET, []() {
+        triggerHeater3On = true;
+        server.send(200, "text/plain", "Heater 3 ON triggered");
+    });
+    server.on("/heater3/off", HTTP_GET, []() {
+        triggerHeater3Off = true;
+        server.send(200, "text/plain", "Heater 3 OFF triggered");
+    });
+
+    server.onNotFound([]() {
+        server.send(404, "text/plain", "Not found");
+    });
+
+    server.begin();
+    Serial.println("[HTTP] Web server started");
+}
+
 void setup() {
     Serial.begin(SERIAL_BAUDRATE);
     Serial.println("\n\n[BOOT] Initializing system...");
@@ -110,11 +162,15 @@ void setup() {
 
     wifiSetup();
     sinricSetup();
+    setupHTTPServer();
 }
 
 void loop() {
     // Service the Sinric Pro websocket connection
     SinricPro.handle();
+    
+    // Service HTTP requests
+    server.handleClient();
 
     // -------------------------------------------------------------------------
     // Heater Device 1 Sequences
