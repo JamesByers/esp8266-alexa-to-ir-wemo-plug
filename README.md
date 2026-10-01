@@ -61,7 +61,7 @@ esp8266_alexa_to_ir_wemo_plug/
 - **Microcontroller**: NodeMCU v2 (ESP8266) or equivalent.
 - **IR Transmitter**: IR LED module or discrete 940nm IR LED with NPN transistor driver circuit.
 - **Pin Mapping**:
-  - **GPIO 4 (NodeMCU Pin D2)**: Connected to the IR LED transmitter control line.
+  - **GPIO 5 (NodeMCU Pin D1)**: Connected to the IR LED transmitter control line.
 
 ---
 
